@@ -127,9 +127,9 @@ body {
     font-family: var(--font-body);
     line-height: var(--line-height-body);
     background:
-        radial-gradient(circle at 10% -5%, var(--color-primary-soft-04), transparent 36%),
-        radial-gradient(circle at 95% 0%, var(--color-gold-soft-08), transparent 34%),
-        linear-gradient(180deg, #F7F4EE 0%, #F7F4EE 55%, #F7F4EE 100%);
+        radial-gradient(circle at 10% -5%, rgba(var(--color-primary-rgb), 0.025), transparent 36%),
+        radial-gradient(circle at 95% 0%, rgba(var(--color-gold-rgb), 0.035), transparent 34%),
+        linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg) 55%, var(--color-bg) 100%);
 }
 
 img {
