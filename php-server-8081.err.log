@@ -1,0 +1,73 @@
+[Thu Mar 26 10:33:46 2026] PHP 8.2.12 Development Server (http://127.0.0.1:8081) started
+[Thu Mar 26 10:33:48 2026] 127.0.0.1:19658 Accepted
+[Thu Mar 26 10:33:48 2026] 127.0.0.1:19658 [200]: GET /index.php
+[Thu Mar 26 10:33:48 2026] 127.0.0.1:19658 Closing
+[Thu Mar 26 10:34:01 2026] 127.0.0.1:19661 Accepted
+[Thu Mar 26 10:34:01 2026] 127.0.0.1:19661 [200]: GET /index.php
+[Thu Mar 26 10:34:01 2026] 127.0.0.1:19661 Closing
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:7458 Accepted
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:7458 [200]: GET /index.php
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:7458 Closing
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:33031 Accepted
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:40305 Accepted
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:33031 [200]: GET /style.css
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:40305 [200]: GET /data/translations.js
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:33031 Closing
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:40305 Closing
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:26055 Accepted
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:26055 [200]: GET /data/heroes.js
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:26055 Closing
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:55489 Accepted
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:24443 Accepted
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:54247 Accepted
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:55489 [200]: GET /data/timeline.js
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:24443 [200]: GET /data/quiz.js
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:54247 [200]: GET /script.js
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:55489 Closing
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:24443 Closing
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:54247 Closing
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:26342 Accepted
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:26342 [404]: GET /favicon.ico - No such file or directory
+[Thu Mar 26 10:34:36 2026] 127.0.0.1:26342 Closing
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:60592 Accepted
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:60592 [200]: GET /index.php
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:60592 Closing
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:46559 Accepted
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:63054 Accepted
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:46559 [200]: GET /style.css
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:63054 [200]: GET /data/translations.js
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:46559 Closing
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:63054 Closing
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:51735 Accepted
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:56331 Accepted
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:29330 Accepted
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:45175 Accepted
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:51735 [200]: GET /data/heroes.js
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:56331 [200]: GET /data/timeline.js
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:29330 [200]: GET /data/quiz.js
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:45175 [200]: GET /script.js
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:51735 Closing
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:56331 Closing
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:29330 Closing
+[Thu Mar 26 10:52:26 2026] 127.0.0.1:45175 Closing
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:53749 Accepted
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:53749 [200]: GET /index.php
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:53749 Closing
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:44859 Accepted
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:56695 Accepted
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:44859 [200]: GET /style.css
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:56695 [200]: GET /data/translations.js
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:44859 Closing
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:56695 Closing
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:40207 Accepted
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:10247 Accepted
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:20095 Accepted
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:23560 Accepted
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:40207 [200]: GET /data/heroes.js
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:10247 [200]: GET /data/timeline.js
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:20095 [200]: GET /data/quiz.js
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:23560 [200]: GET /script.js
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:40207 Closing
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:10247 Closing
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:20095 Closing
+[Thu Mar 26 10:52:30 2026] 127.0.0.1:23560 Closing
