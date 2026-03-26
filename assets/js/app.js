@@ -1,4 +1,15 @@
-import { fetchAdminQuizAttempts, fetchAdminUsers, fetchCurrentUser, fetchQuizAttempts, loginUser, logoutUser, registerUser, saveQuizAttempt } from "./core/api.js";
+import {
+    fetchAdminQuizAttempts,
+    fetchAdminUsers,
+    fetchCurrentUser,
+    fetchProfileActivitySummary,
+    fetchQuizAttempts,
+    loginUser,
+    logoutUser,
+    registerUser,
+    saveQuizAttempt,
+    trackUserActivity
+} from "./core/api.js";
 import { getQuizItems, getHeroes } from "./core/content.js";
 import { setI18nState } from "./core/i18n.js";
 import {
@@ -9,6 +20,7 @@ import {
     setAdminQuizAttempts,
     setAdminUsers,
     setCurrentUserState,
+    setProfileActivitySummary,
     setSelectedUserFilter,
     setQuizAttempts
 } from "./core/state.js";
@@ -48,6 +60,7 @@ import {
 } from "./features/quiz.js";
 import { renderTimeline } from "./features/timeline.js";
 import { renderDiaspora } from "./features/diaspora.js";
+import { renderProfile } from "./features/profile.js";
 import { generateHeroQuoteImage } from "./features/share.js";
 
 setI18nState(appState);
@@ -65,6 +78,7 @@ async function initializeApp() {
     await initializeCurrentUser();
     ensureAccessibleSection();
     await initializeQuizAttempts();
+    await initializeProfileActivitySummary();
     await initializeAdminUsers();
     await initializeAdminQuizAttempts();
     bindEvents();
@@ -97,6 +111,34 @@ async function initializeQuizAttempts() {
     } catch (error) {
         console.error("Unable to load quiz attempts.", error);
         setQuizAttempts([]);
+    }
+}
+
+async function initializeProfileActivitySummary(shouldRenderProfile = false) {
+    if (appState.authenticated !== true) {
+        setProfileActivitySummary(null);
+
+        if (shouldRenderProfile) {
+            renderProfile();
+        }
+        return;
+    }
+
+    try {
+        const summary = await fetchProfileActivitySummary();
+        setProfileActivitySummary(summary);
+    } catch (error) {
+        console.error("Unable to load profile activity summary.", error);
+        setProfileActivitySummary({
+            last_activity_at: null,
+            total_by_type: {},
+            unique_targets_by_type: {},
+            recent_events: []
+        });
+    }
+
+    if (shouldRenderProfile) {
+        renderProfile();
     }
 }
 
@@ -304,6 +346,10 @@ function setSection(section) {
         appState.selectedHeroId = null;
     }
 
+    if (section === "profile" && appState.authenticated === true) {
+        void initializeProfileActivitySummary(true);
+    }
+
     savePreferences();
     renderApp();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -314,6 +360,7 @@ function setSection(section) {
 function setTimelineFilter(period) {
     appState.timelineFilter = period || "all";
     renderTimeline();
+    void trackActivityForAuthenticatedUser("timeline_period_view", appState.timelineFilter);
 }
 
 function setDiasporaFilter(location) {
@@ -327,6 +374,7 @@ function openHero(heroId) {
     renderHeroes();
     announceHeroOpen();
     focusHeroDetailHeading();
+    void trackActivityForAuthenticatedUser("hero_view", String(heroId || ""));
 }
 
 function closeHero() {
@@ -403,6 +451,7 @@ function renderApp() {
     renderHeroes();
     renderDiaspora();
     renderQuiz();
+    renderProfile();
     renderAdmin();
     renderAuthPanel();
     updateVisibleSection();
@@ -421,6 +470,7 @@ async function handleLogout() {
         setAdminQuizAttempts([]);
         setAdminUsers([]);
         setQuizAttempts([]);
+        setProfileActivitySummary(null);
         renderApp();
         announce("Vous etes deconnecte.");
     } catch (error) {
@@ -441,6 +491,7 @@ async function submitLoginForm(form) {
         const authState = await loginUser(identifier, password);
         setCurrentUserState(normalizeAuthenticatedState(authState));
         await initializeQuizAttempts();
+        await initializeProfileActivitySummary();
         await initializeAdminUsers();
         await initializeAdminQuizAttempts();
         closeAuthPanel();
@@ -469,6 +520,7 @@ async function submitRegisterForm(form) {
         const authState = await registerUser(payload);
         setCurrentUserState(normalizeAuthenticatedState(authState));
         await initializeQuizAttempts();
+        await initializeProfileActivitySummary();
         await initializeAdminUsers();
         await initializeAdminQuizAttempts();
         closeAuthPanel();
@@ -510,4 +562,23 @@ function saveCompletedQuizAttempt(questions) {
         .catch((error) => {
             console.error("Unable to save quiz attempt.", error);
         });
+}
+
+async function trackActivityForAuthenticatedUser(activityType, targetKey) {
+    if (appState.authenticated !== true) {
+        return;
+    }
+
+    if (typeof targetKey !== "string" || targetKey.trim() === "") {
+        return;
+    }
+
+    try {
+        await trackUserActivity({
+            activity_type: activityType,
+            target_key: targetKey.trim()
+        });
+    } catch (error) {
+        console.warn("Unable to track user activity.", error);
+    }
 }

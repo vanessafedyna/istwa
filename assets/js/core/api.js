@@ -116,6 +116,44 @@ export async function fetchAdminQuizAttempts() {
     return Array.isArray(result?.data?.attempts) ? result.data.attempts : [];
 }
 
+export async function trackUserActivity(payload) {
+    const response = await fetch("./api/activity-track.php", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+    });
+
+    if (!response.ok) {
+        throw new Error(`Activity tracking failed with status ${response.status}.`);
+    }
+
+    return response.json();
+}
+
+export async function fetchProfileActivitySummary() {
+    const response = await fetch("./api/profile-activity-summary.php", {
+        credentials: "same-origin"
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+        throw new Error(result?.message || `Profile activity summary fetch failed with status ${response.status}.`);
+    }
+
+    return result?.data?.summary && typeof result.data.summary === "object"
+        ? result.data.summary
+        : {
+            last_activity_at: null,
+            total_by_type: {},
+            unique_targets_by_type: {},
+            recent_events: []
+        };
+}
+
 export async function logoutUser() {
     const response = await fetch("./api/auth-logout.php", {
         method: "POST",

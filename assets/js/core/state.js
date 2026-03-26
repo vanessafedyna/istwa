@@ -17,10 +17,11 @@ export const appState = {
     quizFinished: false,
     quizAnswers: [],
     quizAttemptSaveStarted: false,
-    quizAttempts: []
+    quizAttempts: [],
+    profileActivitySummary: null
 };
 
-export const SECTION_NAMES = ["home", "timeline", "heroes", "quiz", "diaspora", "admin"];
+export const SECTION_NAMES = ["home", "timeline", "heroes", "quiz", "profile", "diaspora", "admin"];
 
 export function loadSavedPreferences() {
     try {
@@ -66,6 +67,12 @@ export function setAdminUsers(users) {
 
 export function setAdminQuizAttempts(attempts) {
     appState.adminQuizAttempts = Array.isArray(attempts) ? attempts : [];
+}
+
+export function setProfileActivitySummary(summary) {
+    appState.profileActivitySummary = summary && typeof summary === "object"
+        ? summary
+        : null;
 }
 
 export function setSelectedUserFilter(userId) {
