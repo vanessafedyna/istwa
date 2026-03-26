@@ -38,6 +38,7 @@ declare(strict_types=1);
                         <button id="nav-timeline" class="nav-link" type="button" data-action="change-section" data-section="timeline"></button>
                         <button id="nav-heroes" class="nav-link" type="button" data-action="change-section" data-section="heroes"></button>
                         <button id="nav-quiz" class="nav-link" type="button" data-action="change-section" data-section="quiz"></button>
+                        <button id="nav-diaspora" class="nav-link" type="button" data-action="change-section" data-section="diaspora"></button>
                         <button id="nav-admin" class="nav-link" type="button" data-action="change-section" data-section="admin" hidden></button>
                     </nav>
 
@@ -58,6 +59,7 @@ declare(strict_types=1);
             <section id="timeline-section" class="content-section" hidden></section>
             <section id="heroes-section" class="content-section" hidden></section>
             <section id="quiz-section" class="content-section" hidden></section>
+            <section id="diaspora-section" class="content-section" hidden></section>
             <section id="admin-section" class="content-section" hidden></section>
         </main>
 
@@ -73,6 +75,7 @@ declare(strict_types=1);
     <script defer src="data/heroes.js"></script>
     <script defer src="data/timeline.js"></script>
     <script defer src="data/quiz.js"></script>
+    <script defer src="data/diaspora.js"></script>
     <script type="module" src="assets/js/app.js"></script>
 </body>
 </html>

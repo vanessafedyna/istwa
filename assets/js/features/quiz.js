@@ -3,9 +3,13 @@ import { getQuizItems } from "../core/content.js";
 import { getLocalizedValue, t } from "../core/i18n.js";
 import { escapeHtml } from "../core/ui.js";
 
+const QUIZ_SESSION_SIZE = 10;
+
+let quizQuestionPool = null;
+let shouldPrepareNextQuizSession = true;
+
 export function renderQuiz() {
     const quizSection = document.getElementById("quiz-section");
-    const questions = getQuizItems();
 
     if (!quizSection) {
         return;
@@ -31,6 +35,10 @@ export function renderQuiz() {
         return;
     }
 
+    ensureQuizSessionQuestions();
+
+    const questions = getQuizItems();
+
     if (questions.length === 0) {
         quizSection.innerHTML = `
             <article class="section-panel">
@@ -41,6 +49,7 @@ export function renderQuiz() {
     }
 
     if (appState.quizFinished) {
+        shouldPrepareNextQuizSession = true;
         quizSection.innerHTML = renderQuizResults(questions.length) + renderQuizAttempts();
         return;
     }
@@ -291,4 +300,41 @@ export function getQuizResultAnnouncement(totalQuestions) {
 
 export function totalQuestionsFromQuestions(questions) {
     return Array.isArray(questions) ? questions.length : 0;
+}
+
+function ensureQuizSessionQuestions() {
+    if (!Array.isArray(quizQuestionPool)) {
+        quizQuestionPool = Array.isArray(getQuizItems()) ? getQuizItems().slice() : [];
+    }
+
+    if (!shouldPrepareNextQuizSession) {
+        return;
+    }
+
+    window.IstwaQuiz = createQuizSessionQuestions(quizQuestionPool);
+    shouldPrepareNextQuizSession = false;
+}
+
+function createQuizSessionQuestions(questions) {
+    const shuffledQuestions = shuffleQuestions(questions);
+
+    if (shuffledQuestions.length <= QUIZ_SESSION_SIZE) {
+        return shuffledQuestions;
+    }
+
+    return shuffledQuestions.slice(0, QUIZ_SESSION_SIZE);
+}
+
+function shuffleQuestions(questions) {
+    const shuffledQuestions = Array.isArray(questions) ? questions.slice() : [];
+
+    for (let index = shuffledQuestions.length - 1; index > 0; index -= 1) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+        const currentQuestion = shuffledQuestions[index];
+
+        shuffledQuestions[index] = shuffledQuestions[randomIndex];
+        shuffledQuestions[randomIndex] = currentQuestion;
+    }
+
+    return shuffledQuestions;
 }

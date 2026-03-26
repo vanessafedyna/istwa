@@ -36,6 +36,16 @@ export function renderHeroes() {
                     <div class="hero-detail__body">
                         <div>
                             <blockquote class="hero-detail__quote">${escapeHtml(getLocalizedValue(selectedHero.quote))}</blockquote>
+                            <div class="button-row">
+                                <button
+                                    class="button button-gold"
+                                    type="button"
+                                    data-action="share-hero-quote"
+                                    data-hero-id="${escapeHtml(selectedHero.id)}"
+                                >
+                                    ${escapeHtml(t("share_quote_button"))}
+                                </button>
+                            </div>
                             <h3 class="detail-block__title">${escapeHtml(t("heroes_biography_title"))}</h3>
                             <p class="hero-detail__text">${escapeHtml(getLocalizedValue(selectedHero.description))}</p>
                         </div>

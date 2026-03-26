@@ -34,8 +34,8 @@ window.IstwaTranslations = {
         stat_one_label: "Indépendance proclamée",
         stat_two_value: "1791",
         stat_two_label: "Début de la révolution",
-        stat_three_value: "4 sections",
-        stat_three_label: "Accueil, chronologie, héros et quiz",
+        stat_three_value: "5 sections",
+        stat_three_label: "Accueil, chronologie, héros, quiz et diaspora",
         timeline_title: "Chronologie",
         timeline_intro: "Les événements sont organisés par période afin de rendre la lecture plus fluide et de faciliter une future extension du contenu.",
         timeline_filter_all: "Toutes les périodes",
@@ -94,7 +94,15 @@ window.IstwaTranslations = {
         admin_display_name_label: "Nom affiché",
         admin_created_at_label: "Créé le",
         admin_completed_at_label: "Terminé le",
-        footer_quote: "Connaître son histoire, c'est mieux comprendre sa place dans le présent."
+        footer_quote: "Connaître son histoire, c'est mieux comprendre sa place dans le présent.",
+        nav_diaspora: "Diaspora",
+        diaspora_title: "Diaspora haïtienne",
+        diaspora_intro: "L'histoire de la diaspora haïtienne à travers le monde. Des premières vagues d'immigration aux contributions de la nouvelle génération.",
+        diaspora_filter_all: "Toutes les villes",
+        diaspora_empty: "Aucun événement ne correspond au filtre sélectionné.",
+        share_quote_button: "Partager la citation",
+        share_downloading: "Création de l'image…",
+        share_app_name: "Istwa — Histoire d'Haïti"
     },
     ht: {
         app_title: "Istwa",
@@ -131,8 +139,8 @@ window.IstwaTranslations = {
         stat_one_label: "Dat endepandans lan",
         stat_two_value: "1791",
         stat_two_label: "Kòmansman revolisyon an",
-        stat_three_value: "4 seksyon",
-        stat_three_label: "Akèy, kronoloji, ewo ak quiz",
+        stat_three_value: "5 seksyon",
+        stat_three_label: "Akèy, kronoloji, ewo, quiz ak dyaspora",
         timeline_title: "Kronoloji",
         timeline_intro: "Evènman yo klase pa peryòd pou lekti a pi klè epi pou li fasil ajoute nouvo kontni pita.",
         timeline_filter_all: "Tout peryòd yo",
@@ -191,7 +199,15 @@ window.IstwaTranslations = {
         admin_display_name_label: "Non pou afiche",
         admin_created_at_label: "Dat kreyasyon",
         admin_completed_at_label: "Dat finisman",
-        footer_quote: "Lè ou konnen istwa ou, ou konprann pi byen plas ou nan prezan an."
+        footer_quote: "Lè ou konnen istwa ou, ou konprann pi byen plas ou nan prezan an.",
+        nav_diaspora: "Dyaspora",
+        diaspora_title: "Dyaspora ayisyen",
+        diaspora_intro: "Istwa dyaspora ayisyen an atravè mond lan. Depi premye vag imigrasyon yo rive kontribisyon nouvo jenerasyon an.",
+        diaspora_filter_all: "Tout vil yo",
+        diaspora_empty: "Pa gen okenn evènman ki koresponn ak filtre ou chwazi a.",
+        share_quote_button: "Pataje sitasyon an",
+        share_downloading: "Kreyasyon imaj la…",
+        share_app_name: "Istwa — Istwa Ayiti"
     },
     en: {
         app_title: "Istwa",
@@ -228,8 +244,8 @@ window.IstwaTranslations = {
         stat_one_label: "Independence declared",
         stat_two_value: "1791",
         stat_two_label: "Revolution begins",
-        stat_three_value: "4 sections",
-        stat_three_label: "Home, timeline, heroes and quiz",
+        stat_three_value: "5 sections",
+        stat_three_label: "Home, timeline, heroes, quiz and diaspora",
         timeline_title: "Timeline",
         timeline_intro: "Events are grouped by period to keep the reading flow clear and make future content expansion easier.",
         timeline_filter_all: "All periods",
@@ -288,6 +304,14 @@ window.IstwaTranslations = {
         admin_display_name_label: "Display name",
         admin_created_at_label: "Created at",
         admin_completed_at_label: "Completed at",
-        footer_quote: "Knowing your history helps you understand your place in the present."
+        footer_quote: "Knowing your history helps you understand your place in the present.",
+        nav_diaspora: "Diaspora",
+        diaspora_title: "Haitian diaspora",
+        diaspora_intro: "The history of the Haitian diaspora around the world. From the first waves of immigration to the contributions of a new generation.",
+        diaspora_filter_all: "All cities",
+        diaspora_empty: "No events match the selected filter.",
+        share_quote_button: "Share quote",
+        share_downloading: "Creating image…",
+        share_app_name: "Istwa — History of Haiti"
     }
 };

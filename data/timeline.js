@@ -42,6 +42,27 @@ window.IstwaTimeline = [
         color: "#103a5d"
     },
     {
+        id: "mackandal-execution",
+        year: 1758,
+        period: "colonization",
+        periodLabel: {
+            fr: "Colonisation",
+            ht: "Kolonizasyon",
+            en: "Colonization"
+        },
+        title: {
+            fr: "Exécution de Mackandal",
+            ht: "Egzekisyon Mackandal",
+            en: "Execution of Mackandal"
+        },
+        description: {
+            fr: "François Mackandal, leader marron ayant organisé un réseau de résistance clandestin contre les plantations, est capturé et exécuté. Son nom reste un symbole de la résistance antiesclavagiste.",
+            ht: "François Mackandal, yon lidè mawon ki te òganize yon rezo rezistans klandesten kont plantasyon yo, tonbe nan men kolon yo epi yo egzekite li. Non li rete yon senbòl rezistans kont esklavaj.",
+            en: "François Mackandal, a maroon leader who organized a clandestine resistance network against the plantations, was captured and executed. His name remains a symbol of anti-slavery resistance."
+        },
+        color: "#3d2b1f"
+    },
+    {
         id: "bois-caiman",
         year: 1791,
         period: "revolution",
@@ -105,6 +126,27 @@ window.IstwaTimeline = [
         color: "#103a5d"
     },
     {
+        id: "crete-a-pierrot",
+        year: 1802,
+        period: "revolution",
+        periodLabel: {
+            fr: "Révolution",
+            ht: "Revolisyon",
+            en: "Revolution"
+        },
+        title: {
+            fr: "Bataille de la Crête-à-Pierrot",
+            ht: "Batay Krèt-a-Pyewo",
+            en: "Battle of Crête-à-Pierrot"
+        },
+        description: {
+            fr: "Les forces haïtiennes défendent la forteresse de la Crête-à-Pierrot contre l'armée de Leclerc. La résistance acharnée, notamment de Marie-Jeanne Lamartinière, marque un tournant symbolique de la guerre.",
+            ht: "Fòs ayisyen yo defann fò Krèt-a-Pyewo a kont lame Leclerc la. Rezistans san rete a, sitou ak kouraj Marie-Jeanne Lamartinière, vin tounen yon gwo pwen senbolik nan lagè a.",
+            en: "Haitian forces defended the fortress of Crête-à-Pierrot against Leclerc's army. That fierce resistance, especially the courage of Marie-Jeanne Lamartinière, became a symbolic turning point in the war."
+        },
+        color: "#2d5a4a"
+    },
+    {
         id: "vertieres",
         year: 1803,
         period: "revolution",
@@ -147,6 +189,48 @@ window.IstwaTimeline = [
         color: "#bd8c2f"
     },
     {
+        id: "assassination-dessalines",
+        year: 1806,
+        period: "post-independence",
+        periodLabel: {
+            fr: "Après l'indépendance",
+            ht: "Apre endepandans",
+            en: "Post-independence"
+        },
+        title: {
+            fr: "Assassinat de Dessalines",
+            ht: "Asasinay Dessalines",
+            en: "Assassination of Dessalines"
+        },
+        description: {
+            fr: "Jean-Jacques Dessalines est assassiné le 17 octobre 1806 au Pont-Rouge. Sa mort ouvre une période de division entre le Nord et le Sud du pays.",
+            ht: "Jean-Jacques Dessalines asasinen 17 oktòb 1806 nan Pon Wouj. Lanmò li louvri yon peryòd divizyon ant Nò ak Sid peyi a.",
+            en: "Jean-Jacques Dessalines was assassinated on October 17, 1806 at Pont-Rouge. His death opened a period of division between the North and the South of the country."
+        },
+        color: "#b7402c"
+    },
+    {
+        id: "haiti-divided",
+        year: 1806,
+        period: "post-independence",
+        periodLabel: {
+            fr: "Après l'indépendance",
+            ht: "Apre endepandans",
+            en: "Post-independence"
+        },
+        title: {
+            fr: "Division du pays",
+            ht: "Divizyon peyi a",
+            en: "Division of the country"
+        },
+        description: {
+            fr: "Après la mort de Dessalines, Haïti se divise entre le Royaume du Nord dirigé par Henri Christophe et la République du Sud dirigée par Alexandre Pétion.",
+            ht: "Apre lanmò Dessalines, Ayiti divize ant Wayòm Nò a anba direksyon Henri Christophe ak Repiblik Sid la anba direksyon Alexandre Pétion.",
+            en: "After the death of Dessalines, Haiti was divided between the Kingdom of the North led by Henri Christophe and the Republic of the South led by Alexandre Pétion."
+        },
+        color: "#8a6320"
+    },
+    {
         id: "independence-debt",
         year: 1825,
         period: "post-independence",
@@ -166,6 +250,27 @@ window.IstwaTimeline = [
             en: "France imposed a massive financial indemnity on Haiti in exchange for official recognition, creating a long-lasting burden on the country's economy."
         },
         color: "#8a6320"
+    },
+    {
+        id: "debt-reduced",
+        year: 1838,
+        period: "post-independence",
+        periodLabel: {
+            fr: "Après l'indépendance",
+            ht: "Apre endepandans",
+            en: "Post-independence"
+        },
+        title: {
+            fr: "Renégociation de la dette",
+            ht: "Renegosyasyon dèt la",
+            en: "Renegotiation of the debt"
+        },
+        description: {
+            fr: "La dette envers la France est réduite de 150 à 90 millions de francs, mais continue de peser lourdement sur les finances du pays pendant des décennies.",
+            ht: "Dèt Ayiti dwe Lafrans lan desann soti 150 pou rive 90 milyon fran, men li kontinye peze lou sou finans peyi a pandan plizyè dizèn lane.",
+            en: "The debt owed to France was reduced from 150 to 90 million francs, but it continued to weigh heavily on the country's finances for decades."
+        },
+        color: "#5c665f"
     },
     {
         id: "us-recognition",
@@ -208,6 +313,69 @@ window.IstwaTimeline = [
             en: "The United States occupation, from 1915 to 1934, deeply reshaped Haitian institutions and the economy while triggering strong resistance."
         },
         color: "#5c665f"
+    },
+    {
+        id: "charlemagne-peralte",
+        year: 1918,
+        period: "twentieth-century",
+        periodLabel: {
+            fr: "XXe siècle",
+            ht: "20yèm syèk",
+            en: "20th century"
+        },
+        title: {
+            fr: "Résistance des Cacos",
+            ht: "Rezistans Cacos yo",
+            en: "Cacos resistance"
+        },
+        description: {
+            fr: "Face à l'occupation américaine, des résistants haïtiens appelés Cacos mènent une guérilla sous la direction de leaders comme Charlemagne Péralte, devenu un symbole de la lutte pour la souveraineté.",
+            ht: "Fas ak okipasyon ameriken an, rezistan ayisyen yo yo rele Cacos mennen yon geriya anba direksyon lidè tankou Charlemagne Péralte, ki vin tounen yon senbòl lit pou souverènte.",
+            en: "In response to the U.S. occupation, Haitian resistants known as the Cacos waged a guerrilla struggle under leaders such as Charlemagne Péralte, who became a symbol of the fight for sovereignty."
+        },
+        color: "#6c3656"
+    },
+    {
+        id: "duvalier-era",
+        year: 1957,
+        period: "twentieth-century",
+        periodLabel: {
+            fr: "XXe siècle",
+            ht: "20yèm syèk",
+            en: "20th century"
+        },
+        title: {
+            fr: "Début de l'ère Duvalier",
+            ht: "Kòmansman epòk Duvalier",
+            en: "Beginning of the Duvalier era"
+        },
+        description: {
+            fr: "François Duvalier accède à la présidence en 1957 et instaure progressivement un régime autoritaire. La dynastie Duvalier marquera Haïti jusqu'en 1986.",
+            ht: "François Duvalier rive sou pouvwa a an 1957 epi li mete sou pye yon rejim otoritè piti piti. Dinasti Duvalier la pral make Ayiti jouk rive 1986.",
+            en: "François Duvalier came to the presidency in 1957 and gradually established an authoritarian regime. The Duvalier dynasty would shape Haiti until 1986."
+        },
+        color: "#3a3a3a"
+    },
+    {
+        id: "fall-duvalier",
+        year: 1986,
+        period: "twentieth-century",
+        periodLabel: {
+            fr: "XXe siècle",
+            ht: "20yèm syèk",
+            en: "20th century"
+        },
+        title: {
+            fr: "Chute de Jean-Claude Duvalier",
+            ht: "Tonbe Jean-Claude Duvalier",
+            en: "Fall of Jean-Claude Duvalier"
+        },
+        description: {
+            fr: "Jean-Claude Duvalier quitte le pouvoir en février 1986 sous la pression populaire, mettant fin à près de trente ans de dictature familiale.",
+            ht: "Jean-Claude Duvalier kite pouvwa a nan mwa fevriye 1986 anba presyon popilè a, sa ki mete fen ak prèske trant ane diktati fanmi an.",
+            en: "Jean-Claude Duvalier left power in February 1986 under popular pressure, bringing nearly thirty years of family dictatorship to an end."
+        },
+        color: "#28664b"
     },
     {
         id: "earthquake-2010",

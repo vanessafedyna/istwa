@@ -1,5 +1,5 @@
 import { fetchAdminQuizAttempts, fetchAdminUsers, fetchCurrentUser, fetchQuizAttempts, loginUser, logoutUser, registerUser, saveQuizAttempt } from "./core/api.js";
-import { getQuizItems } from "./core/content.js";
+import { getQuizItems, getHeroes } from "./core/content.js";
 import { setI18nState } from "./core/i18n.js";
 import {
     appState,
@@ -47,6 +47,8 @@ import {
     totalQuestionsFromQuestions
 } from "./features/quiz.js";
 import { renderTimeline } from "./features/timeline.js";
+import { renderDiaspora } from "./features/diaspora.js";
+import { generateHeroQuoteImage } from "./features/share.js";
 
 setI18nState(appState);
 setUiState(appState);
@@ -157,6 +159,20 @@ function handleClick(event) {
         return;
     }
 
+    if (action === "filter-diaspora") {
+        setDiasporaFilter(trigger.dataset.location || "all");
+        return;
+    }
+
+    if (action === "share-hero-quote") {
+        const heroId = trigger.dataset.heroId;
+        const hero = getHeroes().find((h) => h.id === heroId);
+        if (hero) {
+            generateHeroQuoteImage(hero, appState.language);
+        }
+        return;
+    }
+
     if (action === "open-hero") {
         openHero(trigger.dataset.heroId);
         return;
@@ -259,6 +275,7 @@ function setLanguage(language) {
 
     appState.language = language;
     appState.timelineFilter = "all";
+    appState.diasporaFilter = "all";
     appState.selectedHeroId = null;
     resetQuiz(false);
     savePreferences();
@@ -297,6 +314,11 @@ function setSection(section) {
 function setTimelineFilter(period) {
     appState.timelineFilter = period || "all";
     renderTimeline();
+}
+
+function setDiasporaFilter(location) {
+    appState.diasporaFilter = location || "all";
+    renderDiaspora();
 }
 
 function openHero(heroId) {
@@ -379,6 +401,7 @@ function renderApp() {
     renderHome();
     renderTimeline();
     renderHeroes();
+    renderDiaspora();
     renderQuiz();
     renderAdmin();
     renderAuthPanel();

@@ -9,3 +9,7 @@ export function getTimelineEvents() {
 export function getQuizItems() {
     return window.IstwaQuiz || [];
 }
+
+export function getDiasporaEvents() {
+    return window.IstwaDiaspora || [];
+}

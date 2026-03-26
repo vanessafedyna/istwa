@@ -8,6 +8,7 @@ export const appState = {
     adminQuizAttempts: [],
     selectedUserFilter: "all",
     timelineFilter: "all",
+    diasporaFilter: "all",
     selectedHeroId: null,
     lastHeroTriggerId: null,
     quizCurrentIndex: 0,
@@ -19,7 +20,7 @@ export const appState = {
     quizAttempts: []
 };
 
-export const SECTION_NAMES = ["home", "timeline", "heroes", "quiz", "admin"];
+export const SECTION_NAMES = ["home", "timeline", "heroes", "quiz", "diaspora", "admin"];
 
 export function loadSavedPreferences() {
     try {
