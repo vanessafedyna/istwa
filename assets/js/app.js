@@ -11,7 +11,7 @@ import {
     trackUserActivity
 } from "./core/api.js";
 import { getQuizItems, getHeroes } from "./core/content.js";
-import { setI18nState } from "./core/i18n.js";
+import { setI18nState, t } from "./core/i18n.js";
 import {
     appState,
     loadSavedPreferences,
@@ -60,6 +60,7 @@ import {
 } from "./features/quiz.js";
 import { renderTimeline } from "./features/timeline.js";
 import { renderDiaspora } from "./features/diaspora.js";
+import { renderKonnenRasinOu, setModuleProgress } from "./features/konnen-rasin-ou.js";
 import { renderProfile } from "./features/profile.js";
 import { generateHeroQuoteImage } from "./features/share.js";
 
@@ -78,6 +79,7 @@ async function initializeApp() {
     await initializeCurrentUser();
     ensureAccessibleSection();
     await initializeQuizAttempts();
+    await initializeModuleProgress();
     await initializeProfileActivitySummary();
     await initializeAdminUsers();
     await initializeAdminQuizAttempts();
@@ -111,6 +113,29 @@ async function initializeQuizAttempts() {
     } catch (error) {
         console.error("Unable to load quiz attempts.", error);
         setQuizAttempts([]);
+    }
+}
+
+async function initializeModuleProgress() {
+    if (appState.authenticated !== true) {
+        setModuleProgress([]);
+        return;
+    }
+
+    try {
+        const response = await fetch("./api/module-progress-list.php", {
+            credentials: "same-origin"
+        });
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result?.message || `Module progress fetch failed with status ${response.status}.`);
+        }
+
+        setModuleProgress(Array.isArray(result?.data?.progress) ? result.data.progress : []);
+    } catch (error) {
+        console.error("Unable to load module progress.", error);
+        setModuleProgress([]);
     }
 }
 
@@ -449,11 +474,26 @@ function renderApp() {
     renderHome();
     renderTimeline();
     renderHeroes();
+    renderKonnenRasinOu();
     renderDiaspora();
     renderQuiz();
     renderProfile();
     renderAdmin();
     renderAuthPanel();
+    const navKonnenRasinOu = document.getElementById("nav-konnen-rasin-ou");
+
+    if (navKonnenRasinOu) {
+        navKonnenRasinOu.textContent = t("nav_konnen_rasin_ou");
+        navKonnenRasinOu.hidden = false;
+        navKonnenRasinOu.classList.toggle("is-active", appState.section === "konnen-rasin-ou");
+
+        if (appState.section === "konnen-rasin-ou") {
+            navKonnenRasinOu.setAttribute("aria-current", "page");
+        } else {
+            navKonnenRasinOu.removeAttribute("aria-current");
+        }
+    }
+
     updateVisibleSection();
     document.documentElement.lang = appState.language;
 }
@@ -470,6 +510,7 @@ async function handleLogout() {
         setAdminQuizAttempts([]);
         setAdminUsers([]);
         setQuizAttempts([]);
+        setModuleProgress([]);
         setProfileActivitySummary(null);
         renderApp();
         announce("Vous etes deconnecte.");
@@ -491,6 +532,7 @@ async function submitLoginForm(form) {
         const authState = await loginUser(identifier, password);
         setCurrentUserState(normalizeAuthenticatedState(authState));
         await initializeQuizAttempts();
+        await initializeModuleProgress();
         await initializeProfileActivitySummary();
         await initializeAdminUsers();
         await initializeAdminQuizAttempts();
@@ -520,6 +562,7 @@ async function submitRegisterForm(form) {
         const authState = await registerUser(payload);
         setCurrentUserState(normalizeAuthenticatedState(authState));
         await initializeQuizAttempts();
+        await initializeModuleProgress();
         await initializeProfileActivitySummary();
         await initializeAdminUsers();
         await initializeAdminQuizAttempts();

@@ -1,0 +1,9 @@
+CREATE TABLE organismes (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    slug VARCHAR(100) NOT NULL UNIQUE,
+    join_code VARCHAR(20) NOT NULL UNIQUE,
+    contact_email VARCHAR(191) NOT NULL,
+    status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

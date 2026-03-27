@@ -18,10 +18,12 @@ export const appState = {
     quizAnswers: [],
     quizAttemptSaveStarted: false,
     quizAttempts: [],
+    moduleProgress: [],
+    organismeDashboard: null,
     profileActivitySummary: null
 };
 
-export const SECTION_NAMES = ["home", "timeline", "heroes", "quiz", "profile", "diaspora", "admin"];
+export const SECTION_NAMES = ["home", "timeline", "heroes", "quiz", "profile", "konnen-rasin-ou", "diaspora", "admin"];
 
 export function loadSavedPreferences() {
     try {

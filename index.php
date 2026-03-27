@@ -38,6 +38,7 @@ declare(strict_types=1);
                         <button id="nav-timeline" class="nav-link" type="button" data-action="change-section" data-section="timeline"></button>
                         <button id="nav-heroes" class="nav-link" type="button" data-action="change-section" data-section="heroes"></button>
                         <button id="nav-quiz" class="nav-link" type="button" data-action="change-section" data-section="quiz"></button>
+                        <button id="nav-konnen-rasin-ou" class="nav-link" type="button" data-action="change-section" data-section="konnen-rasin-ou" hidden></button>
                         <button id="nav-profile" class="nav-link" type="button" data-action="change-section" data-section="profile"></button>
                         <button id="nav-diaspora" class="nav-link" type="button" data-action="change-section" data-section="diaspora"></button>
                         <button id="nav-admin" class="nav-link" type="button" data-action="change-section" data-section="admin" hidden></button>
@@ -61,6 +62,7 @@ declare(strict_types=1);
             <section id="heroes-section" class="content-section" hidden></section>
             <section id="quiz-section" class="content-section" hidden></section>
             <section id="profile-section" class="content-section" hidden></section>
+            <section id="konnen-rasin-ou-section" class="content-section" hidden></section>
             <section id="diaspora-section" class="content-section" hidden></section>
             <section id="admin-section" class="content-section" hidden></section>
         </main>
@@ -77,6 +79,7 @@ declare(strict_types=1);
     <script defer src="data/heroes.js?v=<?= filemtime(__DIR__ . '/data/heroes.js') ?>"></script>
     <script defer src="data/timeline.js?v=<?= filemtime(__DIR__ . '/data/timeline.js') ?>"></script>
     <script defer src="data/quiz.js?v=<?= filemtime(__DIR__ . '/data/quiz.js') ?>"></script>
+    <script defer src="data/modules.js?v=<?= filemtime(__DIR__ . '/data/modules.js') ?>"></script>
     <script defer src="data/diaspora.js?v=<?= filemtime(__DIR__ . '/data/diaspora.js') ?>"></script>
     <script type="module" src="assets/js/app.js?v=<?= filemtime(__DIR__ . '/assets/js/app.js') ?>"></script>
 </body>
