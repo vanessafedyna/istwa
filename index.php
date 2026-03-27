@@ -32,15 +32,44 @@ declare(strict_types=1);
                     </span>
                 </button>
 
-                <div class="header-controls">
+                <button
+                    id="mobile-menu-toggle"
+                    class="mobile-menu-toggle"
+                    type="button"
+                    data-action="toggle-mobile-nav"
+                    aria-controls="mobile-menu-panel"
+                    aria-expanded="false"
+                    aria-label="Ouvrir le menu"
+                >
+                    <span class="mobile-menu-toggle__line" aria-hidden="true"></span>
+                    <span class="mobile-menu-toggle__line" aria-hidden="true"></span>
+                    <span class="mobile-menu-toggle__line" aria-hidden="true"></span>
+                    <span class="sr-only">Menu</span>
+                </button>
+
+                <div id="mobile-menu-panel" class="header-controls">
                     <nav class="site-nav" aria-label="Navigation principale">
-                        <button id="nav-home" class="nav-link" type="button" data-action="change-section" data-section="home"></button>
-                        <button id="nav-timeline" class="nav-link" type="button" data-action="change-section" data-section="timeline"></button>
-                        <button id="nav-heroes" class="nav-link" type="button" data-action="change-section" data-section="heroes"></button>
-                        <button id="nav-quiz" class="nav-link" type="button" data-action="change-section" data-section="quiz"></button>
-                        <button id="nav-konnen-rasin-ou" class="nav-link" type="button" data-action="change-section" data-section="konnen-rasin-ou" hidden></button>
-                        <button id="nav-diaspora" class="nav-link" type="button" data-action="change-section" data-section="diaspora"></button>
-                        <button id="nav-admin" class="nav-link" type="button" data-action="change-section" data-section="admin" hidden></button>
+                        <div class="site-nav__primary">
+                            <button id="nav-home" class="nav-link" type="button" data-action="change-section" data-section="home"></button>
+                            <button id="nav-onboarding" class="nav-link" type="button" data-action="change-section" data-section="onboarding"></button>
+                            <button id="nav-experience" class="nav-link" type="button" data-action="change-section" data-section="experience"></button>
+                            <button id="nav-map" class="nav-link" type="button" data-action="change-section" data-section="map"></button>
+                            <button id="nav-missions" class="nav-link" type="button" data-action="change-section" data-section="missions"></button>
+                            <button id="nav-profile" class="nav-link" type="button" data-action="change-section" data-section="profile"></button>
+                        </div>
+
+                        <details id="nav-explorer" class="site-nav__explorer">
+                            <summary id="nav-explorer-toggle" class="nav-link nav-link--summary"></summary>
+                            <div class="site-nav__explorer-menu">
+                                <button id="nav-dashboard" class="nav-link nav-link--secondary" type="button" data-action="change-section" data-section="dashboard"></button>
+                                <button id="nav-timeline" class="nav-link nav-link--secondary" type="button" data-action="change-section" data-section="timeline"></button>
+                                <button id="nav-heroes" class="nav-link nav-link--secondary" type="button" data-action="change-section" data-section="heroes"></button>
+                                <button id="nav-quiz" class="nav-link nav-link--secondary" type="button" data-action="change-section" data-section="quiz"></button>
+                                <button id="nav-konnen-rasin-ou" class="nav-link nav-link--secondary" type="button" data-action="change-section" data-section="konnen-rasin-ou"></button>
+                                <button id="nav-diaspora" class="nav-link nav-link--secondary" type="button" data-action="change-section" data-section="diaspora"></button>
+                                <button id="nav-admin" class="nav-link nav-link--secondary" type="button" data-action="change-section" data-section="admin" hidden></button>
+                            </div>
+                        </details>
                     </nav>
 
                     <label class="language-switcher" for="language-select">
@@ -57,6 +86,12 @@ declare(strict_types=1);
 
         <main id="app-main" class="container main-content">
             <section id="home-section" class="content-section is-active"></section>
+            <section id="onboarding-section" class="content-section" hidden></section>
+            <section id="dashboard-section" class="content-section" hidden></section>
+            <section id="experience-section" class="content-section" hidden></section>
+            <section id="map-section" class="content-section" hidden></section>
+            <section id="missions-section" class="content-section" hidden></section>
+            <section id="profile-section" class="content-section" hidden></section>
             <section id="timeline-section" class="content-section" hidden></section>
             <section id="heroes-section" class="content-section" hidden></section>
             <section id="quiz-section" class="content-section" hidden></section>

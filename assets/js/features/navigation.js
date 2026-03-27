@@ -7,12 +7,20 @@ export function renderNavigation() {
     const languageSelect = document.getElementById("language-select");
     const navigationMap = {
         home: t("nav_home"),
+        onboarding: "Onboarding",
+        experience: "Expérience",
+        map: "Carte",
+        missions: "Missions",
+        profile: "Profil",
+        dashboard: "Dashboard",
         timeline: t("nav_timeline"),
         heroes: t("nav_heroes"),
         quiz: t("nav_quiz"),
+        "konnen-rasin-ou": t("nav_konnen_rasin_ou"),
         diaspora: t("nav_diaspora"),
         admin: t("nav_admin")
     };
+    const explorerSections = ["dashboard", "timeline", "heroes", "quiz", "konnen-rasin-ou", "diaspora", "admin"];
 
     document.title = t("app_title");
     document.getElementById("brand-kicker").textContent = t("app_tagline");
@@ -39,8 +47,30 @@ export function renderNavigation() {
         }
     });
 
+    renderExplorerNavigation(explorerSections);
+
     if (languageSelect) {
         languageSelect.value = appState.language;
+    }
+}
+
+function renderExplorerNavigation(explorerSections) {
+    const explorer = document.getElementById("nav-explorer");
+    const explorerToggle = document.getElementById("nav-explorer-toggle");
+
+    if (!explorer || !explorerToggle) {
+        return;
+    }
+
+    const isExplorerSectionActive = explorerSections.includes(appState.section);
+
+    explorerToggle.textContent = "Explorer";
+    explorer.classList.toggle("is-active", isExplorerSectionActive);
+
+    if (isExplorerSectionActive) {
+        explorer.setAttribute("open", "");
+    } else {
+        explorer.removeAttribute("open");
     }
 }
 

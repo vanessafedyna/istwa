@@ -1,5 +1,6 @@
 import {
     fetchCurrentUser,
+    fetchModuleProgress,
     loginUser,
     logoutUser,
     registerUser,
@@ -7,7 +8,7 @@ import {
     trackUserActivity
 } from "./core/api.js";
 import { getQuizItems, getHeroes } from "./core/content.js";
-import { setI18nState, t } from "./core/i18n.js";
+import { setI18nState } from "./core/i18n.js";
 import {
     appState,
     loadSavedPreferences,
@@ -39,6 +40,12 @@ import {
 } from "./features/navigation.js";
 import { canAccessAdminDashboard, renderAdmin } from "./features/admin.js";
 import { renderHome } from "./features/home.js";
+import { handleOnboardingAction, renderOnboarding } from "./features/onboarding.js";
+import { renderDashboard } from "./features/dashboard.js";
+import { renderExperience } from "./features/experience.js";
+import { renderMap } from "./features/map.js";
+import { openMissionById, renderMissions } from "./features/missions.js";
+import { renderProfile } from "./features/profile.js";
 import {
     announceHeroListReturn,
     announceHeroOpen,
@@ -81,11 +88,7 @@ async function initializeCurrentUser() {
         setCurrentUserState(authState);
     } catch (error) {
         console.error("Unable to load current user.", error);
-        setCurrentUserState({
-            authenticated: false,
-            user: null,
-            role_code: "guest"
-        });
+        setGuestUserState();
     }
 }
 
@@ -96,16 +99,8 @@ async function initializeModuleProgress() {
     }
 
     try {
-        const response = await fetch("./api/module-progress-list.php", {
-            credentials: "same-origin"
-        });
-        const result = await response.json();
-
-        if (!response.ok) {
-            throw new Error(result?.message || `Module progress fetch failed with status ${response.status}.`);
-        }
-
-        setModuleProgress(Array.isArray(result?.data?.progress) ? result.data.progress : []);
+        const progress = await fetchModuleProgress();
+        setModuleProgress(progress);
     } catch (error) {
         console.error("Unable to load module progress.", error);
         setModuleProgress([]);
@@ -120,6 +115,15 @@ function bindEvents() {
 }
 
 function handleClick(event) {
+    if (isMobileNavigationOpen()) {
+        const clickedInsideMobilePanel = event.target.closest("#mobile-menu-panel");
+        const clickedMobileToggle = event.target.closest("#mobile-menu-toggle");
+
+        if (!clickedInsideMobilePanel && !clickedMobileToggle) {
+            closeMobileNavigation();
+        }
+    }
+
     const trigger = event.target.closest("[data-action]");
 
     if (!trigger) {
@@ -128,11 +132,29 @@ function handleClick(event) {
 
     const action = trigger.dataset.action;
 
+    if (action === "toggle-mobile-nav") {
+        toggleMobileNavigation();
+        return;
+    }
+
     if (action === "change-section") {
-        if (trigger.dataset.resetQuiz === "true") {
-            resetQuiz(false);
+        handleSectionChangeAction(trigger);
+        return;
+    }
+
+    if (action === "profile-open-mission") {
+        closeExplorerNavigation();
+        closeMobileNavigation();
+
+        if (openMissionById(String(trigger.dataset.missionId || ""))) {
+            setSection("missions");
         }
-        setSection(trigger.dataset.section);
+
+        return;
+    }
+
+    if (action.startsWith("onboarding-")) {
+        handleOnboardingAction(action, trigger);
         return;
     }
 
@@ -171,11 +193,13 @@ function handleClick(event) {
     }
 
     if (action === "logout-user") {
+        closeMobileNavigation();
         void handleLogout();
         return;
     }
 
     if (action === "open-login") {
+        closeMobileNavigation();
         openAuthPanel("login");
         renderApp();
         focusElement(document.getElementById("auth-panel-heading"));
@@ -207,6 +231,7 @@ function handleClick(event) {
 
 function handleChange(event) {
     if (event.target.id === "language-select") {
+        closeMobileNavigation();
         setLanguage(event.target.value);
     }
 }
@@ -238,6 +263,12 @@ function handleKeydown(event) {
         return;
     }
 
+    if (event.key === "Escape" && isMobileNavigationOpen()) {
+        event.preventDefault();
+        closeMobileNavigation();
+        return;
+    }
+
     if (event.key === "Escape" && appState.section === "heroes" && appState.selectedHeroId !== null) {
         event.preventDefault();
         closeHero();
@@ -259,32 +290,88 @@ function setLanguage(language) {
 }
 
 function ensureAccessibleSection() {
-    if (appState.section === "admin" && !canAccessAdminDashboard()) {
+    if (!canAccessSection(appState.section)) {
         appState.section = "home";
         savePreferences();
     }
 }
 
 function setSection(section) {
-    if (!SECTION_NAMES.includes(section)) {
-        return;
-    }
-
-    if (section === "admin" && !canAccessAdminDashboard()) {
+    if (!canAccessSection(section)) {
         return;
     }
 
     appState.section = section;
-
-    if (section !== "heroes") {
-        appState.selectedHeroId = null;
-    }
+    resetSectionState(section);
 
     savePreferences();
     renderApp();
     window.scrollTo({ top: 0, behavior: "smooth" });
     announceSectionChange();
     focusActiveSectionHeading();
+}
+
+function handleSectionChangeAction(trigger) {
+    closeExplorerNavigation();
+    closeMobileNavigation();
+
+    if (trigger.dataset.resetQuiz === "true") {
+        resetQuiz(false);
+    }
+
+    setSection(trigger.dataset.section);
+}
+
+function canAccessSection(section) {
+    if (!SECTION_NAMES.includes(section)) {
+        return false;
+    }
+
+    if (section === "admin" && !canAccessAdminDashboard()) {
+        return false;
+    }
+
+    return true;
+}
+
+function resetSectionState(section) {
+    if (section !== "heroes") {
+        appState.selectedHeroId = null;
+    }
+}
+
+function closeExplorerNavigation() {
+    const explorer = document.getElementById("nav-explorer");
+
+    if (explorer instanceof HTMLDetailsElement) {
+        explorer.open = false;
+    }
+}
+
+function toggleMobileNavigation() {
+    setMobileNavigationState(!isMobileNavigationOpen());
+}
+
+function closeMobileNavigation() {
+    setMobileNavigationState(false);
+}
+
+function isMobileNavigationOpen() {
+    return document.querySelector(".site-header")?.classList.contains("is-mobile-nav-open") === true;
+}
+
+function setMobileNavigationState(isOpen) {
+    const siteHeader = document.querySelector(".site-header");
+    const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+
+    if (!siteHeader || !mobileMenuToggle) {
+        return;
+    }
+
+    siteHeader.classList.toggle("is-mobile-nav-open", isOpen);
+    document.body.classList.toggle("has-mobile-nav-open", isOpen);
+    mobileMenuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    mobileMenuToggle.setAttribute("aria-label", isOpen ? "Fermer le menu" : "Ouvrir le menu");
 }
 
 function setTimelineFilter(period) {
@@ -377,6 +464,12 @@ function renderApp() {
     ensureAccessibleSection();
     renderNavigation();
     renderHome();
+    renderOnboarding();
+    renderDashboard();
+    renderExperience();
+    renderMap();
+    renderMissions();
+    renderProfile();
     renderTimeline();
     renderHeroes();
     renderKonnenRasinOu();
@@ -384,20 +477,6 @@ function renderApp() {
     renderQuiz();
     renderAdmin();
     renderAuthPanel();
-    const navKonnenRasinOu = document.getElementById("nav-konnen-rasin-ou");
-
-    if (navKonnenRasinOu) {
-        navKonnenRasinOu.textContent = t("nav_konnen_rasin_ou");
-        navKonnenRasinOu.hidden = false;
-        navKonnenRasinOu.classList.toggle("is-active", appState.section === "konnen-rasin-ou");
-
-        if (appState.section === "konnen-rasin-ou") {
-            navKonnenRasinOu.setAttribute("aria-current", "page");
-        } else {
-            navKonnenRasinOu.removeAttribute("aria-current");
-        }
-    }
-
     updateVisibleSection();
     document.documentElement.lang = appState.language;
 }
@@ -405,11 +484,7 @@ function renderApp() {
 async function handleLogout() {
     try {
         await logoutUser();
-        setCurrentUserState({
-            authenticated: false,
-            user: null,
-            role_code: "guest"
-        });
+        setGuestUserState();
         setModuleProgress([]);
         renderApp();
         announce("Vous etes deconnecte.");
@@ -428,11 +503,7 @@ async function submitLoginForm(form) {
     setAuthPanelError("");
 
     try {
-        const authState = await loginUser(identifier, password);
-        setCurrentUserState(normalizeAuthenticatedState(authState));
-        await initializeModuleProgress();
-        closeAuthPanel();
-        renderApp();
+        await applyAuthenticatedSession(loginUser(identifier, password));
         announce("Connexion reussie.");
     } catch (error) {
         setAuthPanelError(error instanceof Error ? error.message : "Connexion impossible.");
@@ -453,11 +524,7 @@ async function submitRegisterForm(form) {
     setAuthPanelError("");
 
     try {
-        const authState = await registerUser(payload);
-        setCurrentUserState(normalizeAuthenticatedState(authState));
-        await initializeModuleProgress();
-        closeAuthPanel();
-        renderApp();
+        await applyAuthenticatedSession(registerUser(payload));
         announce("Inscription reussie.");
     } catch (error) {
         setAuthPanelError(error instanceof Error ? error.message : "Inscription impossible.");
@@ -471,6 +538,23 @@ function normalizeAuthenticatedState(authState) {
         ...authState,
         role_code: authState?.role_code || authState?.user?.role?.code || "guest"
     };
+}
+
+function setGuestUserState() {
+    setCurrentUserState({
+        authenticated: false,
+        user: null,
+        role_code: "guest"
+    });
+}
+
+async function applyAuthenticatedSession(authStatePromise) {
+    const authState = await authStatePromise;
+
+    setCurrentUserState(normalizeAuthenticatedState(authState));
+    await initializeModuleProgress();
+    closeAuthPanel();
+    renderApp();
 }
 
 function saveCompletedQuizAttempt(questions) {

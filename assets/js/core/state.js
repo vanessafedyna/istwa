@@ -17,7 +17,21 @@ export const appState = {
     organismeDashboard: null
 };
 
-export const SECTION_NAMES = ["home", "timeline", "heroes", "quiz", "konnen-rasin-ou", "diaspora", "admin"];
+export const SECTION_NAMES = [
+    "home",
+    "onboarding",
+    "dashboard",
+    "experience",
+    "map",
+    "missions",
+    "profile",
+    "timeline",
+    "heroes",
+    "quiz",
+    "konnen-rasin-ou",
+    "diaspora",
+    "admin"
+];
 
 export function loadSavedPreferences() {
     try {

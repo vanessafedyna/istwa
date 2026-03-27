@@ -74,6 +74,20 @@ export async function registerUser(payload) {
     return result.data;
 }
 
+export async function fetchModuleProgress() {
+    const response = await fetch("./api/module-progress-list.php", {
+        credentials: "same-origin"
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+        throw new Error(result?.message || `Module progress fetch failed with status ${response.status}.`);
+    }
+
+    return Array.isArray(result?.data?.progress) ? result.data.progress : [];
+}
+
 export async function trackUserActivity(payload) {
     const response = await fetch("./api/activity-track.php", {
         method: "POST",
