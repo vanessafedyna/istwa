@@ -13,6 +13,7 @@ export const appState = {
     quizSelectedAnswer: null,
     quizFinished: false,
     quizAnswers: [],
+    missionNotes: {},
     moduleProgress: [],
     organismeDashboard: null
 };

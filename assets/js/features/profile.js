@@ -11,7 +11,10 @@ export function renderProfile() {
 
     const onboardingSnapshot = getOnboardingProfileSnapshot();
     const missionsSnapshot = getMissionsProfileSnapshot();
-    const hasTraces = missionsSnapshot.traces.length > 0;
+    const traces = missionsSnapshot.traces.filter((trace) => {
+        return typeof trace.note === "string" && trace.note.trim() !== "";
+    });
+    const hasTraces = traces.length > 0;
 
     section.innerHTML = `
         <div class="profile-space">
@@ -43,7 +46,7 @@ export function renderProfile() {
                             ? "Quelques mots ont deja pris place ici. Ils ne disent pas tout, mais ils gardent quelque chose de toi."
                             : "Les mots que tu laisseras ici n'ont pas besoin d'etre nombreux. Une phrase peut deja devenir un repere.")}</p>
                         <div class="profile-traces__grid">
-                            ${renderTraceCards(missionsSnapshot.traces)}
+                            ${renderTraceCards(traces)}
                         </div>
                     </article>
                 </div>
@@ -149,7 +152,7 @@ function renderTraceCards(traces) {
     return traces.map((trace, index) => `
         <article class="card profile-trace-card ${index === 0 ? "profile-trace-card--featured" : ""}">
             <p class="profile-trace-card__mission">${escapeHtml(trace.title)}</p>
-            <p class="profile-trace-card__text">${escapeHtml(`"${trace.excerpt}"`)}</p>
+            <p class="profile-trace-card__text">${escapeHtml(`"${trace.note}"`)}</p>
         </article>
     `).join("");
 }

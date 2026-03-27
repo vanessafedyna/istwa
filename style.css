@@ -2714,6 +2714,8 @@ tbody tr:hover {
     font-family: var(--font-display);
     font-size: 1.18rem;
     line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
 .profile-trace-card--empty {

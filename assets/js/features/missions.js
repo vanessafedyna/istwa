@@ -1,4 +1,5 @@
 import { escapeHtml } from "../core/ui.js";
+import { appState } from "../core/state.js";
 
 const MISSIONS = [
     {
@@ -43,11 +44,10 @@ const MISSIONS = [
 ];
 
 let activeMissionId = null;
-let missionNotes = {};
 
 export function getMissionsProfileSnapshot() {
     const missions = MISSIONS.map((mission) => {
-        const note = getMissionNoteValue(mission.id).trim();
+        const note = getMeaningfulMissionNote(getMissionNoteValue(mission.id), mission.notePlaceholder);
         const status = note !== ""
             ? "completed"
             : activeMissionId === mission.id
@@ -71,7 +71,7 @@ export function getMissionsProfileSnapshot() {
             .map((mission) => ({
                 missionId: mission.id,
                 title: mission.title,
-                excerpt: createMissionExcerpt(mission.note)
+                note: mission.note
             }))
     };
 }
@@ -175,8 +175,8 @@ function handleMissionInput(event) {
         return;
     }
 
-    missionNotes = {
-        ...missionNotes,
+    appState.missionNotes = {
+        ...(appState.missionNotes || {}),
         [missionId]: target.value
     };
 
@@ -240,6 +240,7 @@ function getActiveMission() {
 }
 
 function getMissionNoteValue(missionId) {
+    const missionNotes = appState.missionNotes || {};
     return typeof missionNotes[missionId] === "string" ? missionNotes[missionId] : "";
 }
 
@@ -256,12 +257,22 @@ function getMissionNoteStatus(value) {
     return `${characterCount} caractere${suffix} garde${suffix} pour toi.`;
 }
 
-function createMissionExcerpt(value) {
-    const normalizedValue = String(value || "").replace(/\s+/g, " ").trim();
+function getMeaningfulMissionNote(value, placeholder) {
+    const normalizedValue = normalizeMissionNote(value);
+    const normalizedPlaceholder = normalizeMissionNote(placeholder);
 
-    if (normalizedValue.length <= 140) {
-        return normalizedValue;
+    if (normalizedValue === "") {
+        return "";
     }
 
-    return `${normalizedValue.slice(0, 137).trim()}...`;
+    if (normalizedPlaceholder !== "" && normalizedValue.toLowerCase() === normalizedPlaceholder.toLowerCase()) {
+        return "";
+    }
+
+    return normalizedValue;
 }
+
+function normalizeMissionNote(value) {
+    return String(value || "").replace(/\s+/g, " ").trim();
+}
+
