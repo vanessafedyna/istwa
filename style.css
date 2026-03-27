@@ -1,35 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;500;600&display=swap');
+
 :root {
-    --color-bg: #F7F4EE;
-    --color-bg-grad-start: #f7f4ee;
-    --color-bg-grad-mid: #f7f4ee;
-    --color-bg-grad-end: #f7f4ee;
-    --color-surface: rgba(255, 250, 241, 0.9);
-    --color-surface-strong: #fffdf8;
+    --color-bg: #F2EAD9;
+    --color-bg-grad-start: #EDE3D0;
+    --color-bg-grad-mid: #F2EAD9;
+    --color-bg-grad-end: #F7F2E8;
+    --color-surface: rgba(251, 247, 239, 0.92);
+    --color-surface-strong: #FBF7EF;
     --color-white: #ffffff;
     --color-white-rgb: 255, 255, 255;
-    --color-text: #1d2430;
-    --color-muted: #576172;
-    --color-border: rgba(16, 34, 58, 0.14);
-    --color-primary: #123C73;
-    --color-primary-rgb: 18, 60, 115;
-    --color-primary-strong: #0f325f;
-    --color-accent: #A63D40;
-    --color-accent-soft: #b85356;
-    --color-accent-strong: #8f3336;
-    --color-accent-rgb: 166, 61, 64;
-    --color-gold: #D9B26F;
-    --color-gold-soft: #e3c28c;
-    --color-gold-rgb: 217, 178, 111;
-    --color-gold-strong: #8a6a35;
+    --color-text: #1A0F08;
+    --color-muted: #8C6E5A;
+    --color-border: rgba(92, 61, 42, 0.14);
+    --color-primary: #2C1810;
+    --color-primary-rgb: 44, 24, 16;
+    --color-primary-strong: #1A0F08;
+    --color-accent: #C4622D;
+    --color-accent-soft: #D4804E;
+    --color-accent-strong: #8B3D18;
+    --color-accent-rgb: 196, 98, 45;
+    --color-gold: #C9922A;
+    --color-gold-soft: #DFB060;
+    --color-gold-rgb: 201, 146, 42;
+    --color-gold-strong: #7A5515;
     --color-success: #2a664d;
     --color-success-rgb: 42, 102, 77;
     --color-danger: #9a3f32;
     --color-danger-rgb: 154, 63, 50;
-    --color-text-emphasis: #463b2f;
-    --color-text-warm: #4e4132;
-    --color-header-bg: rgba(247, 244, 238, 0.92);
-    --color-nav-surface: rgba(255, 255, 255, 0.86);
-    --color-hero-highlight: #d9b26f;
+    --color-text-emphasis: #3D2010;
+    --color-text-warm: #5C3D2A;
+    --color-header-bg: rgba(251, 247, 239, 0.94);
+    --color-nav-surface: rgba(237, 227, 208, 0.9);
+    --color-hero-highlight: #C9922A;
     --color-hero-highlight-soft: rgba(var(--color-gold-rgb), 0.65);
     --color-hero-highlight-strong: rgba(var(--color-gold-rgb), 0.95);
     --color-surface-soft-92: rgba(255, 255, 255, 0.92);
@@ -44,12 +46,12 @@
     --color-primary-dark-soft-88: rgba(var(--color-primary-rgb), 0.88);
     --color-gold-legacy-soft-12: rgba(var(--color-gold-rgb), 0.12);
     --color-gold-legacy-soft-14: rgba(var(--color-gold-rgb), 0.14);
-    --color-primary-deep-rgb: 15, 50, 95;
-    --color-primary-alt-rgb: 25, 73, 133;
-    --color-primary-alt-2-rgb: 24, 69, 126;
-    --color-primary-alt-3-rgb: 27, 78, 142;
-    --color-primary-alt-4-rgb: 30, 84, 152;
-    --color-primary-alt-5-rgb: 28, 76, 138;
+    --color-primary-deep-rgb: 26, 15, 8;
+    --color-primary-alt-rgb: 44, 24, 16;
+    --color-primary-alt-2-rgb: 55, 30, 18;
+    --color-primary-alt-3-rgb: 61, 32, 18;
+    --color-primary-alt-4-rgb: 70, 38, 20;
+    --color-primary-alt-5-rgb: 50, 28, 16;
     --color-gold-soft-34: rgba(var(--color-gold-rgb), 0.34);
     --color-gold-soft-45: rgba(var(--color-gold-rgb), 0.45);
     --color-gold-soft-65: rgba(var(--color-gold-rgb), 0.65);
@@ -106,8 +108,8 @@
     --line-height-body: 1.65;
     --line-height-tight: 1.2;
     --transition-fast: 0.2s ease;
-    --font-display: Georgia, "Times New Roman", serif;
-    --font-body: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Inter', 'Segoe UI', sans-serif;
 }
 
 *,
@@ -127,9 +129,9 @@ body {
     font-family: var(--font-body);
     line-height: var(--line-height-body);
     background:
-        radial-gradient(circle at 10% -5%, rgba(var(--color-primary-rgb), 0.025), transparent 36%),
-        radial-gradient(circle at 95% 0%, rgba(var(--color-gold-rgb), 0.035), transparent 34%),
-        linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg) 55%, var(--color-bg) 100%);
+        radial-gradient(circle at 10% -5%, rgba(196, 98, 45, 0.04), transparent 36%),
+        radial-gradient(circle at 95% 0%, rgba(201, 146, 42, 0.05), transparent 34%),
+        linear-gradient(180deg, var(--color-bg-grad-start) 0%, var(--color-bg-grad-mid) 50%, var(--color-bg-grad-end) 100%);
 }
 
 img {
@@ -712,10 +714,14 @@ select:focus-visible,
     color: var(--color-white);
 }
 
+.hero-panel .section-title,
+.timeline-journey__hero .section-title,
 .heroes-journey__hero .section-title {
     color: var(--color-white);
 }
 
+.hero-panel .section-intro,
+.timeline-journey__hero .section-intro,
 .heroes-journey__hero .section-intro {
     color: rgba(var(--color-white-rgb), 0.88);
 }
@@ -944,7 +950,7 @@ select:focus-visible,
 
 .quiz-results-card__kicker {
     margin: 0;
-    color: var(--color-gold);
+    color: var(--color-gold-strong);
     font-size: 0.82rem;
     font-weight: 700;
     letter-spacing: 0.06em;
@@ -1428,7 +1434,7 @@ select:focus-visible,
 
 .timeline-card__period {
     background: var(--color-gold-legacy-soft-14);
-    color: var(--color-gold);
+    color: var(--color-gold-strong);
 }
 
 .timeline-card__title {

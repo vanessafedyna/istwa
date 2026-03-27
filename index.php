@@ -11,7 +11,7 @@ declare(strict_types=1);
         name="description"
         content="Istwa est une application éducative multilingue consacrée à l'histoire d'Haïti."
     >
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=<?= filemtime(__DIR__ . '/style.css') ?>">
 </head>
 <body>
     <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
@@ -73,11 +73,11 @@ declare(strict_types=1);
         </footer>
     </div>
 
-    <script defer src="data/translations.js"></script>
-    <script defer src="data/heroes.js"></script>
-    <script defer src="data/timeline.js"></script>
-    <script defer src="data/quiz.js"></script>
-    <script defer src="data/diaspora.js"></script>
-    <script type="module" src="assets/js/app.js"></script>
+    <script defer src="data/translations.js?v=<?= filemtime(__DIR__ . '/data/translations.js') ?>"></script>
+    <script defer src="data/heroes.js?v=<?= filemtime(__DIR__ . '/data/heroes.js') ?>"></script>
+    <script defer src="data/timeline.js?v=<?= filemtime(__DIR__ . '/data/timeline.js') ?>"></script>
+    <script defer src="data/quiz.js?v=<?= filemtime(__DIR__ . '/data/quiz.js') ?>"></script>
+    <script defer src="data/diaspora.js?v=<?= filemtime(__DIR__ . '/data/diaspora.js') ?>"></script>
+    <script type="module" src="assets/js/app.js?v=<?= filemtime(__DIR__ . '/assets/js/app.js') ?>"></script>
 </body>
 </html>
