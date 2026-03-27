@@ -7,8 +7,7 @@ const authPanelState = {
     errorMessage: "",
     loginIdentifier: "",
     registerEmail: "",
-    registerUsername: "",
-    registerDisplayName: ""
+    registerJoinCode: ""
 };
 
 export function openAuthPanel(mode = "login") {
@@ -42,8 +41,7 @@ export function setAuthPanelValues(mode, values) {
     }
 
     authPanelState.registerEmail = String(values.email || "");
-    authPanelState.registerUsername = String(values.username || "");
-    authPanelState.registerDisplayName = String(values.display_name || "");
+    authPanelState.registerJoinCode = String(values.join_code || "");
 }
 
 export function renderAuthPanel() {
@@ -169,25 +167,12 @@ function renderRegisterForm() {
             </p>
             <p>
                 <label>
-                    ${escapeHtml(t("auth_username_label"))}<br>
+                    ${escapeHtml("Code organisme (optionnel)")}<br>
                     <input
                         type="text"
-                        name="username"
-                        value="${escapeHtml(authPanelState.registerUsername)}"
-                        autocomplete="username"
-                        required
-                    >
-                </label>
-            </p>
-            <p>
-                <label>
-                    ${escapeHtml(t("auth_display_name_label"))}<br>
-                    <input
-                        type="text"
-                        name="display_name"
-                        value="${escapeHtml(authPanelState.registerDisplayName)}"
-                        autocomplete="name"
-                        required
+                        name="join_code"
+                        value="${escapeHtml(authPanelState.registerJoinCode)}"
+                        autocomplete="off"
                     >
                 </label>
             </p>

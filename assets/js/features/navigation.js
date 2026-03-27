@@ -10,7 +10,6 @@ export function renderNavigation() {
         timeline: t("nav_timeline"),
         heroes: t("nav_heroes"),
         quiz: t("nav_quiz"),
-        profile: t("nav_profile"),
         diaspora: t("nav_diaspora"),
         admin: t("nav_admin")
     };

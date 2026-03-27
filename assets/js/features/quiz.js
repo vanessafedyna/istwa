@@ -16,26 +16,6 @@ export function renderQuiz() {
         return;
     }
 
-    if (appState.authenticated !== true) {
-        quizSection.innerHTML = `
-            <article class="section-panel quiz-journey quiz-journey--locked">
-                <div class="section-heading">
-                    <div>
-                        <h2 id="quiz-heading" class="section-title" tabindex="-1">${escapeHtml(t("quiz_title"))}</h2>
-                        <p class="section-intro">${escapeHtml(t("quiz_auth_required"))}</p>
-                    </div>
-                </div>
-
-                <div class="button-row">
-                    <button class="button button-primary" type="button" data-action="open-login">
-                        ${escapeHtml(t("quiz_auth_login_button"))}
-                    </button>
-                </div>
-            </article>
-        `;
-        return;
-    }
-
     ensureQuizSessionQuestions();
 
     const questions = getQuizItems();
@@ -51,7 +31,7 @@ export function renderQuiz() {
 
     if (appState.quizFinished) {
         shouldPrepareNextQuizSession = true;
-        quizSection.innerHTML = renderQuizResults(questions.length) + renderQuizAttempts();
+        quizSection.innerHTML = renderQuizResults(questions.length);
         return;
     }
 
@@ -179,7 +159,6 @@ function renderQuizResults(totalQuestions) {
     const ui = getQuizUiCopy();
     let titleKey = "quiz_result_title_keep";
     let textKey = "quiz_result_text_keep";
-    const level = getQuizLevel(appState.quizScore, totalQuestions);
 
     if (scoreRatio >= 0.75) {
         titleKey = "quiz_result_title_excellent";
@@ -206,7 +185,6 @@ function renderQuizResults(totalQuestions) {
                     <span class="result-card__number">${escapeHtml(String(appState.quizScore))}</span>
                     / ${escapeHtml(String(totalQuestions))}
                 </p>
-                <p class="result-card__message">${escapeHtml(`${t("quiz_level_label")} ${level}`)}</p>
                 <p class="result-card__message">${escapeHtml(t(textKey))}</p>
 
                 <div class="button-row">
@@ -218,41 +196,6 @@ function renderQuizResults(totalQuestions) {
                     </button>
                 </div>
             </div>
-        </article>
-    `;
-}
-
-function renderQuizAttempts() {
-    if (!Array.isArray(appState.quizAttempts) || appState.quizAttempts.length === 0) {
-        return `
-            <article class="section-panel">
-                <div class="section-heading">
-                    <div>
-                        <h2 class="section-title">${escapeHtml(t("quiz_attempts_title"))}</h2>
-                        <p class="section-intro">${escapeHtml(t("quiz_attempts_empty"))}</p>
-                    </div>
-                </div>
-            </article>
-        `;
-    }
-
-    return `
-        <article class="section-panel">
-            <div class="section-heading">
-                <div>
-                    <h2 class="section-title">${escapeHtml(t("quiz_attempts_title"))}</h2>
-                </div>
-            </div>
-
-            ${renderQuizAttemptsSummary()}
-
-            <ul class="quiz-feedback">
-                ${appState.quizAttempts.slice(0, 10).map((attempt) => `
-                    <li class="quiz-feedback__text">
-                        ${escapeHtml(formatQuizAttempt(attempt))}
-                    </li>
-                `).join("")}
-            </ul>
         </article>
     `;
 }
@@ -303,98 +246,8 @@ function getQuizUiCopy() {
     return dictionary[appState.language] || dictionary.fr;
 }
 
-function formatQuizAttempt(attempt) {
-    const completedAt = attempt?.completed_at ? new Date(attempt.completed_at) : null;
-    const formattedDate = completedAt instanceof Date && !Number.isNaN(completedAt.getTime())
-        ? completedAt.toLocaleString(appState.language || undefined)
-        : String(attempt?.completed_at || "");
-    const score = Number(attempt?.score ?? 0);
-    const totalQuestions = Number(attempt?.total_questions ?? 0);
-    const level = getQuizLevel(score, totalQuestions);
-
-    return `${formattedDate} - ${score}/${totalQuestions} - ${t("quiz_level_label")} ${level}`;
-}
-
-function renderQuizAttemptsSummary() {
-    const stats = getQuizAttemptsStats();
-    const averagePercent = Math.round(stats.averageScoreRatio * 100);
-    const globalLevel = getQuizLevel(stats.bestScore, stats.bestTotalQuestions);
-
-    return `
-        <div class="quiz-feedback">
-            <p class="quiz-feedback__text">
-                ${escapeHtml(`${t("quiz_summary_total_attempts")} ${stats.totalAttempts}`)}
-            </p>
-            <p class="quiz-feedback__text">
-                ${escapeHtml(`${t("quiz_summary_best_score")} ${stats.bestScore}/${stats.bestTotalQuestions}`)}
-            </p>
-            <p class="quiz-feedback__text">
-                ${escapeHtml(`${t("quiz_summary_average")} ${averagePercent} %`)}
-            </p>
-            <p class="quiz-feedback__text">
-                ${escapeHtml(`${t("quiz_summary_level")} ${globalLevel}`)}
-            </p>
-        </div>
-    `;
-}
-
-function getQuizAttemptsStats() {
-    const attempts = Array.isArray(appState.quizAttempts) ? appState.quizAttempts : [];
-    let bestScore = 0;
-    let bestTotalQuestions = 0;
-    let totalScoreRatio = 0;
-
-    attempts.forEach((attempt) => {
-        const score = Number(attempt?.score ?? 0);
-        const totalQuestions = Number(attempt?.total_questions ?? 0);
-        const scoreRatio = totalQuestions > 0 ? score / totalQuestions : 0;
-        const bestScoreRatio = bestTotalQuestions > 0 ? bestScore / bestTotalQuestions : 0;
-
-        totalScoreRatio += scoreRatio;
-
-        if (scoreRatio > bestScoreRatio) {
-            bestScore = score;
-            bestTotalQuestions = totalQuestions;
-        }
-    });
-
-    return {
-        totalAttempts: attempts.length,
-        bestScore,
-        bestTotalQuestions,
-        averageScoreRatio: attempts.length > 0 ? totalScoreRatio / attempts.length : 0,
-        latestAttempt: attempts[0] || null
-    };
-}
-
-export function getQuizLevel(score, totalQuestions) {
-    const normalizedTotal = Number(totalQuestions);
-    const normalizedScore = Number(score);
-    const scoreRatio = normalizedTotal > 0 ? normalizedScore / normalizedTotal : 0;
-
-    if (scoreRatio >= 0.75) {
-        return t("quiz_level_expert");
-    }
-
-    if (scoreRatio >= 0.5) {
-        return t("quiz_level_intermediate");
-    }
-
-    return t("quiz_level_beginner");
-}
-
 export function getQuizResultAnnouncement(totalQuestions) {
-    const scoreRatio = appState.quizScore / totalQuestions;
-
-    if (scoreRatio >= 0.75) {
-        return `${t("quiz_result_title_excellent")} ${t("quiz_score_label")} ${appState.quizScore} / ${totalQuestions}`;
-    }
-
-    if (scoreRatio >= 0.5) {
-        return `${t("quiz_result_title_good")} ${t("quiz_score_label")} ${appState.quizScore} / ${totalQuestions}`;
-    }
-
-    return `${t("quiz_result_title_keep")} ${t("quiz_score_label")} ${appState.quizScore} / ${totalQuestions}`;
+    return `${t("quiz_score_label")} ${appState.quizScore} / ${totalQuestions}`;
 }
 
 export function totalQuestionsFromQuestions(questions) {

@@ -39,7 +39,6 @@ declare(strict_types=1);
                         <button id="nav-heroes" class="nav-link" type="button" data-action="change-section" data-section="heroes"></button>
                         <button id="nav-quiz" class="nav-link" type="button" data-action="change-section" data-section="quiz"></button>
                         <button id="nav-konnen-rasin-ou" class="nav-link" type="button" data-action="change-section" data-section="konnen-rasin-ou" hidden></button>
-                        <button id="nav-profile" class="nav-link" type="button" data-action="change-section" data-section="profile"></button>
                         <button id="nav-diaspora" class="nav-link" type="button" data-action="change-section" data-section="diaspora"></button>
                         <button id="nav-admin" class="nav-link" type="button" data-action="change-section" data-section="admin" hidden></button>
                     </nav>
@@ -61,7 +60,6 @@ declare(strict_types=1);
             <section id="timeline-section" class="content-section" hidden></section>
             <section id="heroes-section" class="content-section" hidden></section>
             <section id="quiz-section" class="content-section" hidden></section>
-            <section id="profile-section" class="content-section" hidden></section>
             <section id="konnen-rasin-ou-section" class="content-section" hidden></section>
             <section id="diaspora-section" class="content-section" hidden></section>
             <section id="admin-section" class="content-section" hidden></section>

@@ -4,9 +4,6 @@ export const appState = {
     authenticated: false,
     currentUser: null,
     roleCode: "guest",
-    adminUsers: [],
-    adminQuizAttempts: [],
-    selectedUserFilter: "all",
     timelineFilter: "all",
     diasporaFilter: "all",
     selectedHeroId: null,
@@ -16,14 +13,11 @@ export const appState = {
     quizSelectedAnswer: null,
     quizFinished: false,
     quizAnswers: [],
-    quizAttemptSaveStarted: false,
-    quizAttempts: [],
     moduleProgress: [],
-    organismeDashboard: null,
-    profileActivitySummary: null
+    organismeDashboard: null
 };
 
-export const SECTION_NAMES = ["home", "timeline", "heroes", "quiz", "profile", "konnen-rasin-ou", "diaspora", "admin"];
+export const SECTION_NAMES = ["home", "timeline", "heroes", "quiz", "konnen-rasin-ou", "diaspora", "admin"];
 
 export function loadSavedPreferences() {
     try {
@@ -57,26 +51,4 @@ export function setCurrentUserState(authState) {
     appState.roleCode = typeof authState?.role_code === "string" && authState.role_code !== ""
         ? authState.role_code
         : "guest";
-}
-
-export function setQuizAttempts(attempts) {
-    appState.quizAttempts = Array.isArray(attempts) ? attempts : [];
-}
-
-export function setAdminUsers(users) {
-    appState.adminUsers = Array.isArray(users) ? users : [];
-}
-
-export function setAdminQuizAttempts(attempts) {
-    appState.adminQuizAttempts = Array.isArray(attempts) ? attempts : [];
-}
-
-export function setProfileActivitySummary(summary) {
-    appState.profileActivitySummary = summary && typeof summary === "object"
-        ? summary
-        : null;
-}
-
-export function setSelectedUserFilter(userId) {
-    appState.selectedUserFilter = typeof userId === "string" && userId !== "" ? userId : "all";
 }

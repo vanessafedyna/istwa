@@ -1,9 +1,5 @@
 import {
-    fetchAdminQuizAttempts,
-    fetchAdminUsers,
     fetchCurrentUser,
-    fetchProfileActivitySummary,
-    fetchQuizAttempts,
     loginUser,
     logoutUser,
     registerUser,
@@ -17,12 +13,7 @@ import {
     loadSavedPreferences,
     savePreferences,
     SECTION_NAMES,
-    setAdminQuizAttempts,
-    setAdminUsers,
     setCurrentUserState,
-    setProfileActivitySummary,
-    setSelectedUserFilter,
-    setQuizAttempts
 } from "./core/state.js";
 import {
     announce,
@@ -61,8 +52,9 @@ import {
 import { renderTimeline } from "./features/timeline.js";
 import { renderDiaspora } from "./features/diaspora.js";
 import { renderKonnenRasinOu, setModuleProgress } from "./features/konnen-rasin-ou.js";
-import { renderProfile } from "./features/profile.js";
 import { generateHeroQuoteImage } from "./features/share.js";
+
+let quizAttemptSaveStarted = false;
 
 setI18nState(appState);
 setUiState(appState);
@@ -78,11 +70,7 @@ async function initializeApp() {
     loadSavedPreferences();
     await initializeCurrentUser();
     ensureAccessibleSection();
-    await initializeQuizAttempts();
     await initializeModuleProgress();
-    await initializeProfileActivitySummary();
-    await initializeAdminUsers();
-    await initializeAdminQuizAttempts();
     bindEvents();
     renderApp();
 }
@@ -98,21 +86,6 @@ async function initializeCurrentUser() {
             user: null,
             role_code: "guest"
         });
-    }
-}
-
-async function initializeQuizAttempts() {
-    if (appState.authenticated !== true) {
-        setQuizAttempts([]);
-        return;
-    }
-
-    try {
-        const attempts = await fetchQuizAttempts();
-        setQuizAttempts(attempts);
-    } catch (error) {
-        console.error("Unable to load quiz attempts.", error);
-        setQuizAttempts([]);
     }
 }
 
@@ -136,64 +109,6 @@ async function initializeModuleProgress() {
     } catch (error) {
         console.error("Unable to load module progress.", error);
         setModuleProgress([]);
-    }
-}
-
-async function initializeProfileActivitySummary(shouldRenderProfile = false) {
-    if (appState.authenticated !== true) {
-        setProfileActivitySummary(null);
-
-        if (shouldRenderProfile) {
-            renderProfile();
-        }
-        return;
-    }
-
-    try {
-        const summary = await fetchProfileActivitySummary();
-        setProfileActivitySummary(summary);
-    } catch (error) {
-        console.error("Unable to load profile activity summary.", error);
-        setProfileActivitySummary({
-            last_activity_at: null,
-            total_by_type: {},
-            unique_targets_by_type: {},
-            recent_events: []
-        });
-    }
-
-    if (shouldRenderProfile) {
-        renderProfile();
-    }
-}
-
-async function initializeAdminUsers() {
-    if (!canAccessAdminDashboard()) {
-        setAdminUsers([]);
-        return;
-    }
-
-    try {
-        const users = await fetchAdminUsers();
-        setAdminUsers(users);
-    } catch (error) {
-        console.error("Unable to load admin users.", error);
-        setAdminUsers([]);
-    }
-}
-
-async function initializeAdminQuizAttempts() {
-    if (!canAccessAdminDashboard()) {
-        setAdminQuizAttempts([]);
-        return;
-    }
-
-    try {
-        const attempts = await fetchAdminQuizAttempts();
-        setAdminQuizAttempts(attempts);
-    } catch (error) {
-        console.error("Unable to load admin quiz attempts.", error);
-        setAdminQuizAttempts([]);
     }
 }
 
@@ -293,12 +208,6 @@ function handleClick(event) {
 function handleChange(event) {
     if (event.target.id === "language-select") {
         setLanguage(event.target.value);
-        return;
-    }
-
-    if (event.target.id === "admin-user-filter") {
-        setSelectedUserFilter(String(event.target.value || "all"));
-        renderApp();
     }
 }
 
@@ -371,10 +280,6 @@ function setSection(section) {
         appState.selectedHeroId = null;
     }
 
-    if (section === "profile" && appState.authenticated === true) {
-        void initializeProfileActivitySummary(true);
-    }
-
     savePreferences();
     renderApp();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -416,7 +321,7 @@ function resetQuiz(shouldRender = true) {
     appState.quizSelectedAnswer = null;
     appState.quizFinished = false;
     appState.quizAnswers = [];
-    appState.quizAttemptSaveStarted = false;
+    quizAttemptSaveStarted = false;
 
     if (shouldRender) {
         renderQuiz();
@@ -477,7 +382,6 @@ function renderApp() {
     renderKonnenRasinOu();
     renderDiaspora();
     renderQuiz();
-    renderProfile();
     renderAdmin();
     renderAuthPanel();
     const navKonnenRasinOu = document.getElementById("nav-konnen-rasin-ou");
@@ -506,12 +410,7 @@ async function handleLogout() {
             user: null,
             role_code: "guest"
         });
-        setSelectedUserFilter("all");
-        setAdminQuizAttempts([]);
-        setAdminUsers([]);
-        setQuizAttempts([]);
         setModuleProgress([]);
-        setProfileActivitySummary(null);
         renderApp();
         announce("Vous etes deconnecte.");
     } catch (error) {
@@ -531,11 +430,7 @@ async function submitLoginForm(form) {
     try {
         const authState = await loginUser(identifier, password);
         setCurrentUserState(normalizeAuthenticatedState(authState));
-        await initializeQuizAttempts();
         await initializeModuleProgress();
-        await initializeProfileActivitySummary();
-        await initializeAdminUsers();
-        await initializeAdminQuizAttempts();
         closeAuthPanel();
         renderApp();
         announce("Connexion reussie.");
@@ -550,9 +445,8 @@ async function submitRegisterForm(form) {
     const formData = new FormData(form);
     const payload = {
         email: String(formData.get("email") || ""),
-        username: String(formData.get("username") || ""),
-        display_name: String(formData.get("display_name") || ""),
-        password: String(formData.get("password") || "")
+        password: String(formData.get("password") || ""),
+        join_code: String(formData.get("join_code") || "")
     };
 
     setAuthPanelValues("register", payload);
@@ -561,11 +455,7 @@ async function submitRegisterForm(form) {
     try {
         const authState = await registerUser(payload);
         setCurrentUserState(normalizeAuthenticatedState(authState));
-        await initializeQuizAttempts();
         await initializeModuleProgress();
-        await initializeProfileActivitySummary();
-        await initializeAdminUsers();
-        await initializeAdminQuizAttempts();
         closeAuthPanel();
         renderApp();
         announce("Inscription reussie.");
@@ -584,11 +474,15 @@ function normalizeAuthenticatedState(authState) {
 }
 
 function saveCompletedQuizAttempt(questions) {
-    if (appState.quizAttemptSaveStarted) {
+    if (appState.authenticated !== true) {
         return;
     }
 
-    appState.quizAttemptSaveStarted = true;
+    if (quizAttemptSaveStarted) {
+        return;
+    }
+
+    quizAttemptSaveStarted = true;
 
     const payload = {
         score: appState.quizScore,
@@ -600,10 +494,10 @@ function saveCompletedQuizAttempt(questions) {
     };
 
     saveQuizAttempt(payload)
-        .then(() => initializeQuizAttempts())
         .then(() => renderApp())
         .catch((error) => {
             console.error("Unable to save quiz attempt.", error);
+            quizAttemptSaveStarted = false;
         });
 }
 
